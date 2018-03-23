@@ -17,17 +17,17 @@ function handler(routeConfig) {
                 if (result) {
                     // be resilient against a processor returning a value instead of a promise:
                     return Promise.resolve(result)
-                        .then(result => callback(null, result))
+                        .then(result => context.succeed(result))
                         .catch(error => {
                             console.log(error.stack);
-                            callback(error.toString());
+                            context.fail(error);
                         });
                 }
             } catch (error) {
                 if (error.stack) {
                     console.log(error.stack);
                 }
-                callback(error.toString());
+                context.fail(error);
                 return;
             }
         }
